@@ -1,0 +1,52 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg"
+     class="@ClassNames"
+     color="@Color"
+     width="@Size"
+     height="@Size"
+     viewBox="0 0 24 24"
+     stroke-width="@StrokeWidth"
+     stroke="currentColor"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     @onclick="OnClick"
+     @attributes="UnmatchedParameters"
+     transform="rotate(@Rotate)">
+
+    @if (Elements != null)
+    {
+        @((MarkupString)Elements)
+    }
+</svg>
+
+@code {
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter] public string Color { get; set; }
+    [Parameter] public int Size { get; set; } = 24;
+    [Parameter] public double StrokeWidth { get; set; } = 2;
+    [Parameter] public string Elements { get; set; }
+    [Parameter] public bool Filled { get; set; }
+    [Parameter] public int Rotate { get; set; }
+
+    protected string ClassNames => new ClassBuilder()
+        .AddIf($"{Color}", string.IsNullOrWhiteSpace(Color))
+        .AddIf("icon-filled", Filled)
+        .AddIf("cursor-pointer", OnClick.HasDelegate)
+        .ToString();
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> UnmatchedParameters { get; set; }
+
+    protected object GetUnmatchedParameter(string key)
+    {
+        if (UnmatchedParameters?.ContainsKey(key) ?? false)
+        {
+            var value = UnmatchedParameters[key];
+            UnmatchedParameters.Remove(key);
+            return value;
+        }
+
+        return null;
+    }
+}

@@ -1,0 +1,50 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg"
+     width="@Width"
+     height="@Width"
+     viewBox="@FlagViewBox"
+     @onclick="OnClick"
+     @attributes="UnmatchedParameters"
+     transform="rotate(@Rotate)">
+
+    @if (Elements != null)
+    {
+        @((MarkupString)Elements)
+    }
+</svg>
+
+@code {
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter] public string CountryCode { get; set; }
+    [Parameter] public FlagType FlagType { get; set; } = FlagType.Wide;
+
+    private string FlagViewBox = "";
+
+    [Parameter] public int Width { get; set; } = 120;
+    [Parameter] public int Height { get; set; } = 100;
+    [Parameter] public string Elements { get; set; }
+    [Parameter] public int Rotate { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> UnmatchedParameters { get; set; }
+
+    protected object GetUnmatchedParameter(string key)
+    {
+        if (UnmatchedParameters?.ContainsKey(key) ?? false)
+        {
+            var value = UnmatchedParameters[key];
+            UnmatchedParameters.Remove(key);
+            return value;
+        }
+
+        return null;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        FlagViewBox = (FlagType == FlagType.Wide ? "0 0 640 480" : "0 0 512 512");
+        Elements = FlagData.GetFlagByCountryCode(CountryCode.ToLower(), FlagType);
+
+        return base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,41 @@
+﻿@page "/"
+
+<h3>
+    <SVGIcon Elements="@SVGIcons.Map_pin" Size="32" Color="#343a40" />
+    Wide Flags
+</h3>
+
+<div id="iso-flags" class="row">
+   @foreach (FlagModel item in FlagData.FlagModels)
+   {
+    <div class="col-xl-2 col-lg-3 col-md-4 col-6" id="@item.Code">
+        <div class="flag">
+            <div class="flag-country no-wrap" title="@item.Name">
+                <span class="flag-code">@item.Code</span><span>@item.Name</span>
+            </div>
+            <SVGFlag CountryCode="@item.Code" FlagType="FlagType.Wide" Width="120" Height="100" />
+        </div>
+    </div>       
+   }
+</div>
+
+<hr />
+
+<h3>
+    <SVGIcon Elements="@SVGIcons.Map_2" Size="32" Color="#343a40" />
+    Square Flags
+</h3>
+
+<div id="iso-flags" class="row">
+   @foreach (FlagModel item in FlagData.FlagModels)
+   {
+    <div class="col-xl-2 col-lg-3 col-md-4 col-6" id="@item.Code">
+        <div class="flag">
+            <div class="flag-country no-wrap" title="@item.Name">
+                <span class="flag-code">@item.Code</span><span>@item.Name</span>
+            </div>
+            <SVGFlag CountryCode="@item.Code" FlagType="FlagType.Square" Width="120" Height="120" />
+        </div>
+    </div>       
+   }
+</div>
