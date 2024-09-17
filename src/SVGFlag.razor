@@ -40,11 +40,11 @@
         return null;
     }
 
-    protected override Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
         FlagViewBox = (FlagType == FlagType.Wide ? "0 0 640 480" : "0 0 512 512");
         Elements = FlagData.GetFlagByCountryCode(CountryCode.ToLower(), FlagType);
 
-        return base.OnInitializedAsync();
+        base.OnParametersSet()
     }
 }
