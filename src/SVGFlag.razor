@@ -1,6 +1,6 @@
 ﻿<svg xmlns="http://www.w3.org/2000/svg"
      width="@Width"
-     height="@Width"
+     height="@Height"
      viewBox="@FlagViewBox"
      @onclick="OnClick"
      @attributes="UnmatchedParameters"
@@ -45,6 +45,6 @@
         FlagViewBox = (FlagType == FlagType.Wide ? "0 0 640 480" : "0 0 512 512");
         Elements = FlagData.GetFlagByCountryCode(CountryCode.ToLower(), FlagType);
 
-        base.OnParametersSet()
+        base.OnParametersSet();
     }
 }
